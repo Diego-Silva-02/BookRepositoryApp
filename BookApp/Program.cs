@@ -16,6 +16,18 @@ namespace BookApp
                     case ("1"):
                         ListBooks();
                         break;
+                    case ("2"):
+                        InsertBook();
+                        break;
+                    case ("3"):
+                        //UpdateBook();
+                        break;
+                    case ("4"):
+                        //DeleteBook();
+                        break;
+                    case ("5"):
+                        //ViewBook();
+                        break;
                     case ("C"):
                         Console.Clear();
                         break;
@@ -60,6 +72,30 @@ namespace BookApp
                     Console.WriteLine($"#ID {book.returnId()}: {book.returnTitle()}.");
             }
 
+        }
+
+        public static void InsertBook()
+        {
+            Console.WriteLine(Environment.NewLine + "Insert new book");
+
+            foreach (var i in Enum.GetValues(typeof(Category)))
+                Console.WriteLine($"{i} - {Enum.GetName(typeof(Category), i)}");
+
+            Console.WriteLine(Environment.NewLine + "Please select the book category: ");
+            int category = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter the book title: ");
+            string tittle = Console.ReadLine();
+
+            Console.WriteLine("Enter the book description: ");
+            string description = Console.ReadLine();
+
+            Console.WriteLine("Enter the book year: ");
+            int year = int.Parse(Console.ReadLine());
+
+            Book book = new Book(bookRepository.NextId(), (Category)category, tittle, description, year);
+
+            bookRepository.Insert(book);
         }
     }
 }
