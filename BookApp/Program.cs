@@ -20,13 +20,13 @@ namespace BookApp
                         InsertBook();
                         break;
                     case ("3"):
-                        //UpdateBook();
+                        UpdateBook();
                         break;
                     case ("4"):
-                        //DeleteBook();
+                        DeleteBook();
                         break;
                     case ("5"):
-                        //ViewBook();
+                        ViewBook();
                         break;
                     case ("C"):
                         Console.Clear();
@@ -34,11 +34,14 @@ namespace BookApp
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+
+                userOption = GetUserOption();
             }
         }
 
         private static string GetUserOption()
         {
+            Console.WriteLine();
             Console.WriteLine("====================================");
             Console.WriteLine(".Net Library, book's for you future");
             Console.WriteLine("====================================");
@@ -50,7 +53,7 @@ namespace BookApp
             Console.WriteLine("4 - Delete book");
             Console.WriteLine("5 - View book");
             Console.WriteLine("C - Clean screen");
-            Console.WriteLine("X - Exit");
+            Console.WriteLine("X - Exit" + Environment.NewLine);
 
             string userOption = Console.ReadLine().ToUpper();
             Console.WriteLine();
@@ -69,16 +72,16 @@ namespace BookApp
             else
             {
                 foreach (var book in listBooks)
-                    Console.WriteLine($"#ID {book.returnId()}: {book.returnTitle()}.");
+                    Console.WriteLine($"#ID {book.Id}: {book.returnTitle()}.");
             }
 
         }
 
         public static void InsertBook()
         {
-            Console.WriteLine(Environment.NewLine + "Insert new book");
+            Console.WriteLine("Insert new book");
 
-            foreach (var i in Enum.GetValues(typeof(Category)))
+            foreach (int i in Enum.GetValues(typeof(Category)))
                 Console.WriteLine($"{i} - {Enum.GetName(typeof(Category), i)}");
 
             Console.WriteLine(Environment.NewLine + "Please select the book category: ");
@@ -97,5 +100,55 @@ namespace BookApp
 
             bookRepository.Insert(book);
         }
+
+        public static void UpdateBook()
+        {
+            Console.WriteLine("Atualize book");
+
+            Console.WriteLine("Enter the ID of the book to be updated: ");
+            int id = int.Parse(Console.ReadLine());
+
+            foreach (int i in Enum.GetValues(typeof(Category)))
+                Console.WriteLine($"{i} - {Enum.GetName(typeof(Category), i)}");
+
+            Console.WriteLine(Environment.NewLine + "Please select the book category: ");
+            int category = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter the book title: ");
+            string tittle = Console.ReadLine();
+
+            Console.WriteLine("Enter the book description: ");
+            string description = Console.ReadLine();
+
+            Console.WriteLine("Enter the book year: ");
+            int year = int.Parse(Console.ReadLine());
+
+            Book book = new Book(bookRepository.NextId(), (Category)category, tittle, description, year);
+
+            bookRepository.Atualize(id, book);
+        }
+
+        public static void DeleteBook()
+        {
+            ///TODO: Add a confirmation
+            Console.WriteLine("Delete book");
+
+            Console.WriteLine("Enter the ID of the book to be deleted: ");
+            int id = int.Parse(Console.ReadLine());
+
+            bookRepository.Delete(id);
+        }
+
+        public static void ViewBook()
+        {
+            Console.WriteLine("View book");
+
+            Console.WriteLine("Enter the ID of the book to be view: ");
+            int id = int.Parse(Console.ReadLine());
+
+            Book book = bookRepository.ReturnById(id);
+            Console.WriteLine(book.ToString());
+        }
+
     }
 }

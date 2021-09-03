@@ -31,17 +31,12 @@ namespace BookApp
             bookReturn += "Title: " + Title + Environment.NewLine;
             bookReturn += "Description: " + Description + Environment.NewLine;
             bookReturn += "Year: " + Year + Environment.NewLine;
-            return base.ToString();
+            return bookReturn;
         }
 
         public string returnTitle()
         {
             return Title;
-        }
-
-        public int returnId()
-        {
-            return Id;
         }
 
         public void Exclude()
